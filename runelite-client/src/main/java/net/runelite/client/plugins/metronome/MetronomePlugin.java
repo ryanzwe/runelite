@@ -30,19 +30,28 @@ import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.api.SoundEffectID;
 import net.runelite.api.events.GameTick;
+import net.runelite.client.Notifier;
+import net.runelite.client.RuneLite;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 
+
+import javax.sound.sampled.*;
+
+import java.io.*;
+import java.util.Objects;
+
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 @PluginDescriptor(
-	name = "Metronome",
-	description = "Play a sound on a specified tick to aid in efficient skilling",
-	tags = {"skilling", "tick", "timers"},
-	enabledByDefault = false
+		name = "Metronome",
+		description = "Play a sound on a specified tick to aid in efficient skilling",
+		tags = {"skilling", "tick", "timers"},
+		enabledByDefault = false
 )
-public class MetronomePlugin extends Plugin
-{
+public class MetronomePlugin extends Plugin {
 	@Inject
 	private Client client;
 
@@ -51,32 +60,60 @@ public class MetronomePlugin extends Plugin
 
 	private int tickCounter = 0;
 	private boolean shouldTock = false;
-
+	private boolean loaded = false;
 	@Provides
-	MetronomePluginConfiguration provideConfig(ConfigManager configManager)
-	{
+	MetronomePluginConfiguration provideConfig(ConfigManager configManager) {
 		return configManager.getConfig(MetronomePluginConfiguration.class);
 	}
-
 	@Subscribe
-	public void onGameTick(GameTick tick)
-	{
-		if (config.tickCount() == 0)
-		{
+	public void onGameTick(GameTick tick) {
+		if (config.tickCount() == 0) {
 			return;
 		}
+		if (++tickCounter % config.tickCount() == 0) {
 
-		if (++tickCounter % config.tickCount() == 0)
-		{
-			if (config.enableTock() && shouldTock)
-			{
-				client.playSoundEffect(SoundEffectID.GE_DECREMENT_PLOP);
-			}
-			else
-			{
+			if (config.enableTock()) {
+				playCustomSound();
+			} else {
 				client.playSoundEffect(SoundEffectID.GE_INCREMENT_PLOP);
 			}
-			shouldTock = !shouldTock;
 		}
+	}
+
+	private void playCustomSound() {
+		Clip clip = null;
+
+		// Try to load the user sound from ~/.runelite/notification.wav
+		File file = new File(RuneLite.RUNELITE_DIR, "shortBeep.wav");
+		log.println(file.toURI().toString());
+		if (file.exists()) {
+			try {
+				InputStream fileStream = new BufferedInputStream(new FileInputStream(file));
+				try (AudioInputStream sound = AudioSystem.getAudioInputStream(fileStream)) {
+					clip = AudioSystem.getClip();
+					clip.open(sound);
+				}
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+				clip = null;
+				log.println("Unable to play notification sound");
+			}
+		}
+		if (clip == null) {
+			// Otherwise load from the classpath
+			InputStream fileStream = new BufferedInputStream(Notifier.class.getResourceAsStream("notification.wav"));
+			try (AudioInputStream sound = AudioSystem.getAudioInputStream(fileStream)) {
+				clip = AudioSystem.getClip();
+				clip.open(sound);
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+				e.printStackTrace();
+				return;
+			}
+		}
+		setVolume(clip,config.volume());
+		clip.start();
+	}
+	private void setVolume(Clip clip,float volume) {
+		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		gainControl.setValue(20f * (float) Math.log10(volume/100));
 	}
 }
