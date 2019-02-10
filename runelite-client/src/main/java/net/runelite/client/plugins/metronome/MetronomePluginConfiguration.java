@@ -33,10 +33,10 @@ import net.runelite.client.config.ConfigItem;
 public interface MetronomePluginConfiguration extends Config
 {
 	@ConfigItem(
-		keyName = "tickCount",
-		name = "Tick count",
-		description = "Configures the tick on which a sound will be played",
-		position = 2
+			keyName = "tickCount",
+			name = "Tick count",
+			description = "Configures the tick on which a sound will be played",
+			position = 2
 	)
 	default int tickCount()
 	{
@@ -44,13 +44,24 @@ public interface MetronomePluginConfiguration extends Config
 	}
 
 	@ConfigItem(
-		keyName = "enableTock",
-		name = "Enable tock (alternating) sound",
-		description = "Toggles whether to play two alternating sounds",
-		position = 3
+			keyName = "enableTock",
+			name = "Enable Custom Volume",
+			description = "Toggles whether to metronome based on in-game or custom volume",
+			position = 3
 	)
 	default boolean enableTock()
 	{
 		return false;
+	}
+
+	@ConfigItem(
+			keyName = "tickVolume",
+			name = "Volume: ",
+			description = "Changes metronome volume",
+			position = 2
+	)
+	default int volume()
+	{
+		return 1;
 	}
 }
