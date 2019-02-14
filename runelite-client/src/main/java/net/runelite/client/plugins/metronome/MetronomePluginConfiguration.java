@@ -44,6 +44,17 @@ public interface MetronomePluginConfiguration extends Config
 	}
 
 	@ConfigItem(
+			keyName = "MetroVersion",
+			name = "Metronome Version for debug",
+			description = "purely debugging",
+			position = 4
+	)
+	default String vers()
+	{
+		return "1.0";
+	}
+
+	@ConfigItem(
 			keyName = "enableTock",
 			name = "Enable Custom Volume",
 			description = "Toggles whether to metronome based on in-game or custom volume",

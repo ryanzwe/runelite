@@ -29,6 +29,7 @@ import com.google.inject.Provides;
 import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.api.SoundEffectID;
+import net.runelite.api.events.ConfigChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.Notifier;
 import net.runelite.client.RuneLite;
@@ -61,9 +62,18 @@ public class MetronomePlugin extends Plugin {
 	private int tickCounter = 0;
 	private boolean shouldTock = false;
 	private boolean loaded = false;
+	private Clip metroSound = loadCustomSound();
 	@Provides
 	MetronomePluginConfiguration provideConfig(ConfigManager configManager) {
 		return configManager.getConfig(MetronomePluginConfiguration.class);
+	}
+	@Subscribe
+	public void onConfigChanged(ConfigChanged conf)
+	{
+		if(conf.getGroup().equals("metronome"))
+		{
+			setVolume(metroSound, config.volume());
+		}
 	}
 	@Subscribe
 	public void onGameTick(GameTick tick) {
@@ -73,19 +83,17 @@ public class MetronomePlugin extends Plugin {
 		if (++tickCounter % config.tickCount() == 0) {
 
 			if (config.enableTock()) {
-				playCustomSound();
+				playCustomSound(metroSound);
 			} else {
 				client.playSoundEffect(SoundEffectID.GE_INCREMENT_PLOP);
 			}
 		}
 	}
-
-	private void playCustomSound() {
+	// Thanks to Abex for the help
+	private Clip loadCustomSound() {
 		Clip clip = null;
-
-		// Try to load the user sound from ~/.runelite/notification.wav
+		// Try to load the user sound from ~/.runelite/shortBeep.wav
 		File file = new File(RuneLite.RUNELITE_DIR, "shortBeep.wav");
-		log.println(file.toURI().toString());
 		if (file.exists()) {
 			try {
 				InputStream fileStream = new BufferedInputStream(new FileInputStream(file));
@@ -93,23 +101,32 @@ public class MetronomePlugin extends Plugin {
 					clip = AudioSystem.getClip();
 					clip.open(sound);
 				}
+				fileStream.close();
+				return clip;
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				clip = null;
 				log.println("Unable to play notification sound");
 			}
 		}
+		// I should change this to load shortBeep from the jar, which i need to put in
 		if (clip == null) {
 			// Otherwise load from the classpath
 			InputStream fileStream = new BufferedInputStream(Notifier.class.getResourceAsStream("notification.wav"));
 			try (AudioInputStream sound = AudioSystem.getAudioInputStream(fileStream)) {
 				clip = AudioSystem.getClip();
 				clip.open(sound);
+				fileStream.close();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				e.printStackTrace();
-				return;
+				return null;
 			}
 		}
-		setVolume(clip,config.volume());
+		return null;
+	}
+	// Rewind the clip and play it
+	private void playCustomSound(Clip clip)
+	{
+		clip.setFramePosition(0);
 		clip.start();
 	}
 	private void setVolume(Clip clip,float volume) {
