@@ -76,4 +76,26 @@ public interface WASDCameraConfig extends Config
 	{
 		return new ModifierlessKeybind(KeyEvent.VK_D, 0);
 	}
+
+	@ConfigItem(
+			position = 5,
+			keyName = "enableMask",
+			name = "Mask Username",
+			description = "Enable username masking."
+	)
+	default boolean enableMask()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			position = 6,
+			keyName = "maskedUsername",
+			name = "Masked User",
+			description = "Username to mask to."
+	)
+	default String maskedUser()
+	{
+		return "";
+	}
 }

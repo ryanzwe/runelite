@@ -37,6 +37,7 @@ import net.runelite.api.IconID;
 import net.runelite.api.VarClientInt;
 import net.runelite.api.VarClientStr;
 import net.runelite.api.Varbits;
+import net.runelite.api.events.GameTick;
 import net.runelite.api.events.ScriptCallbackEvent;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
@@ -48,6 +49,8 @@ import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.JagexColors;
 import net.runelite.client.util.ColorUtil;
+
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @PluginDescriptor(
 	name = "WASD Camera",
@@ -66,6 +69,9 @@ public class WASDCameraPlugin extends Plugin
 
 	@Inject
 	private ClientThread clientThread;
+
+	@Inject
+	private WASDCameraConfig config;
 
 	@Inject
 	private KeyManager keyManager;
@@ -176,21 +182,18 @@ public class WASDCameraPlugin extends Plugin
 		if (chatboxParent != null)
 		{
 			Widget chatboxInput = client.getWidget(WidgetInfo.CHATBOX_INPUT);
-			if (chatboxInput != null)
+			if (client.getGameState() == GameState.LOGGED_IN)
 			{
-				if (client.getGameState() == GameState.LOGGED_IN)
-				{
-					final boolean isChatboxTransparent = client.isResized() && client.getVar(Varbits.TRANSPARENT_CHATBOX) == 1;
-					final Color textColor = isChatboxTransparent ? JagexColors.CHAT_TYPED_TEXT_TRANSPARENT_BACKGROUND : JagexColors.CHAT_TYPED_TEXT_OPAQUE_BACKGROUND;
-					chatboxInput.setText(getPlayerNameWithIcon() + ": " + ColorUtil.wrapWithColorTag(client.getVar(VarClientStr.CHATBOX_TYPED_TEXT) + "*", textColor));
-				}
+				final boolean isChatboxTransparent = client.isResized() && client.getVar(Varbits.TRANSPARENT_CHATBOX) == 1;
+				final Color textColor = isChatboxTransparent ? JagexColors.CHAT_TYPED_TEXT_TRANSPARENT_BACKGROUND : JagexColors.CHAT_TYPED_TEXT_OPAQUE_BACKGROUND;
+				chatboxInput.setText(getPlayerNameWithIcon() + ": " + ColorUtil.wrapWithColorTag(client.getVar(VarClientStr.CHATBOX_TYPED_TEXT) + "*", textColor));
 			}
 		}
 	}
-
 	private String getPlayerNameWithIcon()
 	{
 		IconID icon;
+		String name = config.enableMask() ? config.maskedUser() : client.getLocalPlayer().getName();
 		switch (client.getAccountType())
 		{
 			case IRONMAN:
@@ -203,8 +206,8 @@ public class WASDCameraPlugin extends Plugin
 				icon = IconID.HARDCORE_IRONMAN;
 				break;
 			default:
-				return client.getLocalPlayer().getName();
+				return name;
 		}
-		return icon + client.getLocalPlayer().getName();
+		return icon + name;
 	}
 }
