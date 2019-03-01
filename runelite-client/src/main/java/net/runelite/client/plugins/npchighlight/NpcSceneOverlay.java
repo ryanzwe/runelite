@@ -177,10 +177,15 @@ public class NpcSceneOverlay extends Overlay
 		if (config.drawNames())
 		{
 			Point textLocation = actor.getCanvasTextLocation(graphics, name, actor.getLogicalHeight() + 40);
+			Point rangeLocation = actor.getCanvasTextLocation(graphics, name, actor.getLogicalHeight());
+			rangeLocation.x += 25;
 
 			if (textLocation != null)
 			{
+				int distance = client.getLocalPlayer().getLocalLocation().distanceTo(actor.getLocalLocation());
+				String range = config.displayRange() ? "" + distance / 128 : "";
 				OverlayUtil.renderTextLocation(graphics, textLocation, name, color);
+				OverlayUtil.renderTextLocation(graphics,rangeLocation, range, Color.RED);
 			}
 		}
 	}

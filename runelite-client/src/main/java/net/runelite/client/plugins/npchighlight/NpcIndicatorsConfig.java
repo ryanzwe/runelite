@@ -96,4 +96,14 @@ public interface NpcIndicatorsConfig extends Config
 	{
 		return false;
 	}
+
+	@ConfigItem(
+			position = 6,
+			keyName = "displayRange",
+			name = "Show NPC Distance from you",
+			description = "Shows how many tiles away the npc is")
+	default boolean displayRange()
+	{
+		return true;
+	}
 }

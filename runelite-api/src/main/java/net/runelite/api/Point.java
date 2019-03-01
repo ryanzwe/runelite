@@ -29,8 +29,8 @@ package net.runelite.api;
  */
 public class Point
 {
-	private final int x;
-	private final int y;
+	public int x;
+	public int y;
 
 	public Point(int x, int y)
 	{
