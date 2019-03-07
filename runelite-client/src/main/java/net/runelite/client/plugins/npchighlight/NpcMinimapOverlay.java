@@ -32,6 +32,8 @@ import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.api.NPC;
 import net.runelite.api.Point;
+import net.runelite.api.Player;
+import net.runelite.api.Tile;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -70,10 +72,11 @@ public class NpcMinimapOverlay extends Overlay
 		if (minimapLocation != null)
 		{
 			OverlayUtil.renderMinimapLocation(graphics, minimapLocation, color.darker());
-
+			int distance = client.getLocalPlayer().getLocalLocation().distanceTo(actor.getLocalLocation());
+			String range = config.displayRange() ? ": " + distance / 128 : "";
 			if (config.drawMinimapNames())
 			{
-				OverlayUtil.renderTextLocation(graphics, minimapLocation, name, color);
+				OverlayUtil.renderTextLocation(graphics, minimapLocation, name + range, color);
 			}
 		}
 	}
