@@ -36,7 +36,6 @@ import net.runelite.api.VarClientStr;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.input.KeyListener;
 import net.runelite.client.input.MouseAdapter;
-import net.runelite.client.plugins.usernamereplacer.UserReplace;
 
 class WASDCameraListener extends MouseAdapter implements KeyListener
 {
