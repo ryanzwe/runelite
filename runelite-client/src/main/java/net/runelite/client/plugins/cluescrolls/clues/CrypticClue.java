@@ -291,7 +291,7 @@ public class CrypticClue extends ClueScroll implements TextClueScroll, NpcClueSc
 		new CrypticClue("A chisel and hammer reside in his home, strange for one of magic. Impress him with your magical equipment.", "Wizard Cromperty", new WorldPoint(2682, 3325, 0), "Wizard Cromperty, NE corner of East Ardougne. +100 magic attack bonus needed"),
 		new CrypticClue("You have all of the elements available to solve this clue. Fortunately you do not have to go as far as to stand in a draft.", CRATE_18506, new WorldPoint(2723, 9891, 0), "Search the crate, west of the Air Elementals, inside the Elemental Workshop."),
 		new CrypticClue("A demon's best friend holds the next step of this clue.", null, "Kill a hellhound."),
-		new CrypticClue("Dig in the centre of a great city of 5 districts.", new WorldPoint(1639, 3673, 0), "Dig in front of the large statue in the centre of Great Kourend."),
+		new CrypticClue("Dig in the centre of a great kingdom of 5 cities.", new WorldPoint(1639, 3673, 0), "Dig in front of the large statue in the centre of Great Kourend."),
 		new CrypticClue("Hopefully this set of armour will help you to keep surviving.", "Sir Vyvin", new WorldPoint(2982, 3336, 2), "Speak to Sir Vyvin while wearing a white platebody, and platelegs."),
 		new CrypticClue("The beasts retreat, for their Queen is gone; the song of this town still plays on. Dig near the birthplace of a blade, be careful not to melt your spade.", new WorldPoint(2342, 3677, 0), "Dig in front of the small furnace in the Piscatoris Fishing Colony."),
 		new CrypticClue("Darkness wanders around me, but fills my mind with knowledge.", "Biblia",  new WorldPoint(1633, 3825, 2), "Speak to Biblia on the Arceuus House Library's top floor."),
@@ -303,7 +303,7 @@ public class CrypticClue extends ClueScroll implements TextClueScroll, NpcClueSc
 		new CrypticClue("Search the drawers, upstairs in the bank to the East of Varrock.", DRAWERS_7194, new WorldPoint(3250, 3420, 1), "Search the drawers upstairs in Varrock east bank."),
 		new CrypticClue("Speak to Hazelmere.", "Hazelmere", new WorldPoint(2677, 3088, 1), "Located upstairs in the house to the north of fairy ring CLS. Answer: 6859"),
 		new CrypticClue("The effects of this fire are magnified.", new WorldPoint(1179, 3626, 0), "Dig by the fire beside Ket'sal K'uk in the westernmost part of the Kebos Swamp. "),
-		new CrypticClue("Always walking around the castle grounds and somehow everyone's age.", "Hans", new WorldPoint(3221, 3218, 0), "Talk to Hans walking around Lumbridge Castle."),
+		new CrypticClue("Always walking around the castle grounds and somehow knows everyone's age.", "Hans", new WorldPoint(3221, 3218, 0), "Talk to Hans walking around Lumbridge Castle."),
 		new CrypticClue("In the place Duke Horacio calls home, talk to a man with a hat dropped by goblins.", "Cook", new WorldPoint(3208, 3213, 0), "Talk to the Cook in Lumbridge Castle."),
 		new CrypticClue("In a village of barbarians, I am the one who guards the village from up high.", "Hunding", new WorldPoint(3097, 3432, 2), "Talk to Hunding atop the tower on the east side of Barbarian Village."),
 		new CrypticClue("Talk to Charlie the Tramp in Varrock.", "Charlie the Tramp", new WorldPoint(3209, 3390, 0), "Talk to Charlie the Tramp by the southern entrance to Varrock. He will give you a task."),
@@ -319,7 +319,9 @@ public class CrypticClue extends ClueScroll implements TextClueScroll, NpcClueSc
 		new CrypticClue("Search the crates in Falador General store.", CRATES_24088, new WorldPoint(2955, 3390, 0), "The Falador General Store can be found by the northern entrance to the city."),
 		new CrypticClue("Talk to Wayne at Wayne's Chains in Falador.", "Wayne", new WorldPoint(2972, 3312, 0), "Wayne's shop is found directly south of the White Knights' Castle."),
 		new CrypticClue("Search the boxes next to a chest that needs a crystal key.", BOXES_360, new WorldPoint(2915, 3452, 0), "The Crystal chest can be found in the house directly south of the Witch's house in Taverley."),
-		new CrypticClue("Talk to Turael in Burthorpe.", "Turael", new WorldPoint(2930, 3536, 0), "Turael is located in the small house east of the Toad and Chicken inn.")
+		new CrypticClue("Talk to Turael in Burthorpe.", "Turael", new WorldPoint(2930, 3536, 0), "Turael is located in the small house east of the Toad and Chicken inn."),
+		new CrypticClue("More resources than I can handle, but in a very dangerous area. Can't wait to strike gold!", new WorldPoint(3183, 3941, 0), "Dig between the three gold ores in the Wilderness Resource Area."),
+		new CrypticClue("Observing someone in a swamp, under the telescope lies treasure.", new WorldPoint(2221, 3091, 0), "Dig next to the telescope on Broken Handz's island in the poison wastes. (Accessible only through fairy ring DLR)")
 	);
 
 	private final String text;
