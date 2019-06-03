@@ -22,7 +22,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.wasdcamera;
+package net.runelite.client.plugins.keyremapping;
 
 import java.awt.event.KeyEvent;
 import net.runelite.client.config.Config;
@@ -30,13 +30,24 @@ import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ModifierlessKeybind;
 
-@ConfigGroup("wasdcamera")
-public interface WASDCameraConfig extends Config
+@ConfigGroup("keyremapping")
+public interface KeyRemappingConfig extends Config
 {
 	@ConfigItem(
 		position = 1,
+		keyName = "cameraRemap",
+		name = "Remap Camera",
+		description = "Configures whether the camera movement uses remapped keys"
+	)
+	default boolean cameraRemap()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		position = 2,
 		keyName = "up",
-		name = "Up key",
+		name = "Camera Up key",
 		description = "The key which will replace up."
 	)
 	default ModifierlessKeybind up()
@@ -45,9 +56,9 @@ public interface WASDCameraConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 2,
+		position = 3,
 		keyName = "down",
-		name = "Down key",
+		name = "Camera Down key",
 		description = "The key which will replace down."
 	)
 	default ModifierlessKeybind down()
@@ -56,9 +67,9 @@ public interface WASDCameraConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 3,
+		position = 4,
 		keyName = "left",
-		name = "Left key",
+		name = "Camera Left key",
 		description = "The key which will replace left."
 	)
 	default ModifierlessKeybind left()
@@ -67,9 +78,9 @@ public interface WASDCameraConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 4,
+		position = 5,
 		keyName = "right",
-		name = "Right key",
+		name = "Camera Right key",
 		description = "The key which will replace right."
 	)
 	default ModifierlessKeybind right()
@@ -78,6 +89,7 @@ public interface WASDCameraConfig extends Config
 	}
 
 	@ConfigItem(
+<<<<<<< HEAD:runelite-client/src/main/java/net/runelite/client/plugins/wasdcamera/WASDCameraConfig.java
 			position = 5,
 			keyName = "enableMask",
 			name = "Mask Username",
@@ -98,4 +110,15 @@ public interface WASDCameraConfig extends Config
 	{
 		return "";
 	}
+=======
+		position = 6,
+		keyName = "fkeyRemap",
+		name = "Remap F Keys",
+		description = "Configures whether F-Keys are Remapped to 1 (F1) through 0 (F10), '-' (F11), and '=' (F12)"
+	)
+	default boolean fkeyRemap()
+	{
+		return false;
+	}
+>>>>>>> 4aea1dbc4999675f8c0feb9e81ee05a345381800:runelite-client/src/main/java/net/runelite/client/plugins/keyremapping/KeyRemappingConfig.java
 }
